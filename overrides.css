@@ -1,0 +1,134 @@
+/* Fixed navigation and a centered, softly defocused hero image. */
+.site-header {
+  position: fixed;
+  z-index: 8;
+  background: rgba(245, 239, 227, .94);
+  border-bottom: 1px solid rgba(39, 62, 50, .08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  background: none;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: 0;
+  pointer-events: none;
+  background: url("Asets/bg-homepage") center 46% / cover fixed;
+  filter: blur(2.5px);
+  transform: scale(1.015);
+}
+
+.hero-shade {
+  z-index: 0;
+  background: linear-gradient(90deg, rgba(32, 43, 26, .37), rgba(32, 43, 26, .24) 57%, rgba(32, 43, 26, .13)),
+    linear-gradient(0deg, rgba(22, 31, 21, .19), rgba(22, 31, 21, .08) 45%, rgba(22, 31, 21, .12));
+}
+
+.hero-copy {
+  margin: 58px 24px 0;
+  text-align: center;
+}
+
+@media (min-width: 1450px) {
+  .hero-copy { margin: 58px 24px 0; }
+}
+
+@media (max-width: 760px) {
+  .hero::before { background-position: 53% center; }
+  .hero-copy { margin: 22px 20px 0; }
+}
+
+@media (max-width: 390px) {
+  .hero-copy { margin: 22px 16px 0; }
+}
+
+/* The header becomes a smaller, translucent glass control after the hero. */
+.site-header {
+  transition: height .38s cubic-bezier(.2,.8,.2,1), width .38s cubic-bezier(.2,.8,.2,1),
+    top .38s cubic-bezier(.2,.8,.2,1), padding .38s cubic-bezier(.2,.8,.2,1),
+    border-radius .38s cubic-bezier(.2,.8,.2,1), background .3s ease, box-shadow .3s ease,
+    left .38s cubic-bezier(.2,.8,.2,1), right .38s cubic-bezier(.2,.8,.2,1), transform .38s cubic-bezier(.2,.8,.2,1);
+}
+
+.site-header.is-compact {
+  top: 12px;
+  left: 50%;
+  right: auto;
+  width: min(900px, calc(100% - 48px));
+  height: 58px;
+  padding: 0 24px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: linear-gradient(130deg, rgba(255, 251, 241, .78), rgba(242, 237, 222, .54));
+  box-shadow: 0 9px 35px rgba(31, 47, 36, .15), inset 0 1px rgba(255, 255, 255, .8);
+  backdrop-filter: blur(24px) saturate(1.65);
+  -webkit-backdrop-filter: blur(24px) saturate(1.65);
+  animation: glass-pop-in .42s cubic-bezier(.18,.85,.25,1.25) both;
+}
+
+@keyframes glass-pop-in {
+  0% { opacity: .7; transform: translateX(-50%) translateY(-14px) scale(.94); }
+  65% { opacity: 1; transform: translateX(-50%) translateY(2px) scale(1.015); }
+  100% { transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+@media (max-width: 760px) {
+  .site-header.is-compact {
+    top: 9px;
+    width: calc(100% - 24px);
+    height: 54px;
+    padding: 0 15px;
+  }
+  .mobile-nav { position: fixed; top: 65px; }
+  .site-header.is-compact + .mobile-nav { top: 69px; }
+  .site-header.is-compact + .mobile-nav.open {
+    left: 12px;
+    right: 12px;
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 0 0 20px 20px;
+    padding: 9px 18px 16px;
+    background: rgba(250, 247, 237, .88);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  }
+}
+
+/* Phone-first refinements: comfortable touch targets, compact cards and forms. */
+@media (max-width: 600px) {
+  html { scroll-padding-top: 76px; }
+  .desktop-nav { display: none; }
+  .cart-button, .menu-toggle { min-height: 44px; }
+  .menu-toggle { width: 40px; height: 40px; }
+  .cart-button { gap: 6px; padding: 7px 0 7px 8px; }
+  .cart-button b { width: 25px; height: 25px; }
+  .mobile-nav a, .mobile-nav button { min-height: 45px; display: flex; align-items: center; }
+  .hero { min-height: 600px; height: 91svh; }
+  .hero-copy { max-width: 540px; }
+  .hero-intro { margin-left: auto; margin-right: auto; }
+  .hero-copy .button { min-height: 48px; }
+  .gallery-track { touch-action: pan-y; }
+  .gallery-controls button { width: 44px; height: 44px; }
+  .filter-pill { min-height: 40px; }
+  .add-button { min-height: 46px; }
+  .product-info { min-height: 64px; }
+  .custom-content .button { min-height: 48px; }
+  .order-dialog { width: calc(100% - 20px); max-height: 94dvh; padding: 43px 20px 24px; }
+  .order-dialog input, .order-dialog select, .order-dialog textarea { font-size: 16px; }
+  .order-dialog label { gap: 8px; }
+  .form-submit { min-height: 48px; }
+  .cart-drawer { padding-top: max(25px, env(safe-area-inset-top)); padding-bottom: max(25px, env(safe-area-inset-bottom)); }
+  .checkout-button { min-height: 48px; }
+  .site-footer { padding-bottom: max(34px, env(safe-area-inset-bottom)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header, .site-header.is-compact { animation: none; transition: none; }
+}
