@@ -1,0 +1,121 @@
+/* Motion-led editorial structure: preserve the handmade palette and mark. */
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+#home { order: 1; }
+#gallery { order: 2; }
+#shop { order: 3; }
+#custom { order: 4; }
+#about { order: 5; }
+.studio-note { order: 6; }
+
+.hero {
+  min-height: min(900px, 100svh);
+  height: 100svh;
+  isolation: isolate;
+}
+
+.hero-copy { max-width: 840px; }
+.hero-copy .eyebrow { animation: rise-in .8s .1s both cubic-bezier(.2,.8,.2,1); }
+.hero h1 { animation: rise-in 1s .18s both cubic-bezier(.2,.8,.2,1); }
+.hero-intro { animation: rise-in .9s .34s both cubic-bezier(.2,.8,.2,1); }
+.hero-copy .button { animation: rise-in .8s .48s both cubic-bezier(.2,.8,.2,1); }
+.hero h1 em { display: inline-block; animation: word-breathe 5s 1.3s ease-in-out infinite; }
+.hero::after {
+  content: "";
+  position: absolute;
+  width: clamp(250px, 38vw, 560px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 247, 225, .4);
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  z-index: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(.84);
+  animation: orbit-in 1.6s .2s both cubic-bezier(.2,.7,.3,1), orbit 24s 1.8s linear infinite;
+}
+
+.hero-sticker { transform: rotate(0deg); animation: sticker-arrive .8s .7s both cubic-bezier(.2,.9,.25,1.3), sticker-float 5s 1.5s ease-in-out infinite; }
+.hero-scroll .scroll-line { transform-origin: top; animation: scroll-pulse 1.8s ease-in-out infinite; }
+
+.gallery-section { position: relative; }
+.gallery-section::before {
+  content: "SLOW MADE  ✳  HEARTFULLY MADE  ✳  MADE FOR KEEPING  ✳  ";
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 19px;
+  overflow: hidden;
+  white-space: nowrap;
+  color: rgba(52, 79, 61, .42);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  animation: ticker-drift 24s linear infinite;
+}
+.gallery-art { transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .7s; }
+.gallery-card:hover .gallery-art { transform: scale(.975) rotate(-.4deg); filter: saturate(1.08); }
+.gallery-card:nth-child(even) { transform: translateY(24px); }
+.gallery-caption { transition: transform .35s ease; }
+.gallery-card:hover .gallery-caption { transform: translateX(5px); }
+.yarn-ball { animation: yarn-turn 22s linear infinite; }
+.mini-hoop { transition: transform .65s cubic-bezier(.2,.7,.2,1); }
+.product-card:hover .mini-hoop { transform: rotate(8deg); }
+.mini-charm { animation: charm-swing 4.5s ease-in-out infinite; transform-origin: 50% -40%; }
+.product-card:nth-child(4n+1) .product-visual { transition: background-color .4s; }
+
+.shop-heading h2, .gallery-heading h2, .intro h2, .custom-section h2 { text-wrap: balance; }
+.shop-section { position: relative; }
+.shop-section::after {
+  content: "✳";
+  position: absolute;
+  right: 4%;
+  top: 100px;
+  color: rgba(184, 110, 77, .13);
+  font-size: clamp(70px, 12vw, 160px);
+  pointer-events: none;
+  animation: orbit 35s linear infinite;
+}
+
+.custom-section { overflow: hidden; }
+.custom-content { animation: rise-in .8s both; }
+.custom-decoration { animation: decoration-drift 18s ease-in-out infinite alternate; }
+.custom-sun { animation: sun-breathe 6s ease-in-out infinite; }
+
+.motion-reveal { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.75,.2,1); }
+.motion-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.gallery-card.motion-reveal:nth-child(even) { transform: translateY(48px); }
+.gallery-card.motion-reveal.is-visible:nth-child(even) { transform: translateY(24px); }
+.product-card.motion-reveal { transition-delay: var(--reveal-delay, 0ms); }
+
+@keyframes rise-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes orbit-in { from { opacity: 0; transform: translate(-50%, -50%) scale(.65); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes orbit { to { rotate: 360deg; } }
+@keyframes word-breathe { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(-1deg); } }
+@keyframes sticker-arrive { from { opacity: 0; scale: .5; rotate: -15deg; } to { opacity: 1; scale: 1; rotate: 11deg; } }
+@keyframes sticker-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
+@keyframes scroll-pulse { 0%, 100% { scale: 1 1; opacity: .6; } 50% { scale: 1 .62; opacity: 1; } }
+@keyframes ticker-drift { to { text-indent: -260px; } }
+@keyframes yarn-turn { to { rotate: 360deg; } }
+@keyframes charm-swing { 0%, 100% { rotate: -5deg; } 50% { rotate: 6deg; } }
+@keyframes decoration-drift { to { translate: 12px -15px; rotate: 5deg; } }
+@keyframes sun-breathe { 0%, 100% { scale: 1; opacity: .7; } 50% { scale: 1.08; opacity: 1; } }
+
+@media (max-width: 760px) {
+  .hero { height: 94svh; min-height: 650px; }
+  .hero::after { width: min(82vw, 380px); }
+  .gallery-section { padding-top: 84px; }
+  .gallery-section::before { top: 14px; font-size: 7px; }
+  .gallery-card:nth-child(even) { transform: none; }
+  .gallery-card.motion-reveal:nth-child(even), .gallery-card.motion-reveal.is-visible:nth-child(even) { transform: none; }
+  .shop-section::after { top: 70px; right: 2%; font-size: 75px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .motion-reveal { opacity: 1; transform: none; }
+}

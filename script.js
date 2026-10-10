@@ -158,4 +158,22 @@ document.querySelector('#custom-form').addEventListener('submit', event => {
   form.querySelector('.form-note').textContent = 'Your idea has not been sent. Connect an order service to receive real requests.';
 });
 
+// Reveal the editorial sections as they enter view; reduced-motion users see
+// the complete page without waiting for scroll animations.
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if ('IntersectionObserver' in window && !reduceMotion) {
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('#gallery .gallery-card, #shop .product-card, #about .intro-grid, .studio-note').forEach((element, index) => {
+    element.classList.add('motion-reveal');
+    if (element.matches('.product-card')) element.style.setProperty('--reveal-delay', `${(index % 4) * 85}ms`);
+    revealObserver.observe(element);
+  });
+}
+
 updateCart();
